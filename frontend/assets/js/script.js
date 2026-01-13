@@ -169,20 +169,20 @@ sendMessage.addEventListener("click", function () {
     data[key] = value;
   });
 
-  fetch('https://your-api-endpoint.com/sendMessage', {
+  fetch('https://portfolio-five-sandy-yism5lp65k.vercel.app/api/messages/add', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
-  .then(response => response.json())
-  .then(result => {
-    console.log('Message sent successfully:', result);
-    alert('Message sent successfully!');
-  })
-  .catch(error => {
-    console.error('Error sending message:', error);
-    alert('Failed to send message. Please try again.');
-  });
+    .then(response => response.json())
+    .then(result => {
+      console.log('Message sent successfully:', result);
+      alert('Message sent successfully!');
+    })
+    .catch(error => {
+      console.error('Error sending message:', error);
+      alert('Failed to send message. Please try again.');
+    });
 });
