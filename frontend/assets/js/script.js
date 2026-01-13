@@ -160,6 +160,17 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
 const sendMessage = document.querySelector("[data-form-btn]");
 
+// Toast notification function
+const showToast = function (message, type = 'success') {
+  const toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = `toast show ${type}`;
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3000);
+};
+
 sendMessage.addEventListener("click", function () {
   // Collect form data
   const formData = new FormData(form);
@@ -168,6 +179,10 @@ sendMessage.addEventListener("click", function () {
   formData.forEach((value, key) => {
     data[key] = value;
   });
+
+  // Add loader to button
+  sendMessage.disabled = true;
+  sendMessage.innerHTML = '<ion-icon name="hourglass"></ion-icon><span>Sending...</span>';
 
   fetch('https://portfolio-five-sandy-yism5lp65k.vercel.app/api/messages/add', {
     method: 'POST',
@@ -179,10 +194,15 @@ sendMessage.addEventListener("click", function () {
     .then(response => response.json())
     .then(result => {
       console.log('Message sent successfully:', result);
-      alert('Message sent successfully!');
+      showToast('Message sent successfully!', 'success');
+      form.reset();
+      sendMessage.disabled = true;
+      sendMessage.innerHTML = '<ion-icon name="paper-plane"></ion-icon><span>Send Message</span>';
     })
     .catch(error => {
       console.error('Error sending message:', error);
-      alert('Failed to send message. Please try again.');
+      showToast('Failed to send message. Please try again.', 'error');
+      sendMessage.disabled = false;
+      sendMessage.innerHTML = '<ion-icon name="paper-plane"></ion-icon><span>Send Message</span>';
     });
 });
